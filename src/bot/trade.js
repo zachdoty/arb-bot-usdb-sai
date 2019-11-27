@@ -159,9 +159,10 @@ let checkTrade = async (_name, _web3) => {
 
     let DAIToken = new _web3.eth.Contract(SmartTokenABI, config.DAI_ADDRESS);
     let USDToken = new _web3.eth.Contract(SmartTokenABI, config.USD_ADDRESS);
+    let DAIBNTToken = new _web3.eth.Contract(SmartTokenABI, config.DAIBNT);
 
     let USDBNTConverter = new _web3.eth.Contract(NewBancorConverterABI, config.USDBNT_ADDRESS);
-    let DAIBNTConverter = new _web3.eth.Contract(BancorConverterABI, config.DAIBNT_ADDRESS);
+    let DAIBNTConverter = new _web3.eth.Contract(BancorConverterABI, await DAIBNTToken.methods.owner().call());
 
     let getReturn_DAI = async () => {
         let returnBNT = await USDBNTConverter.methods.getReturn(config.USD_ADDRESS, config.BNT_ADDRESS, _web3.utils.toWei(config.TRADE_VALUE, 'ether')).call();
